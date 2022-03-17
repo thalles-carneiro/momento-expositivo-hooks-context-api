@@ -1,32 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import QuoteContext from './QuoteContext';
 
-class QuoteProvider extends Component {
-  state = {
-    quote: '',
-    author: '',
-  }
+const QuoteProvider = ({ children }) => {
+  const [quote, setQuote] = useState('');
+  const [author, setAuthor] = useState('');
 
-  sendQuote = ({ quote, author }) => {
-    this.setState({ quote, author });
-  }
+  const sendQuoteAndAuthor = ({ quote, author }) => {
+    setQuote(quote);
+    setAuthor(author);
+  };
 
-  render() {
-    const { quote, author } = this.state;
-    const { children } = this.props;
+  const context = {
+    quote,
+    author,
+    sendQuoteAndAuthor,
+  };
 
-    const context = {
-      quote,
-      author,
-      sendQuote: this.sendQuote,
-    };
-
-    return (
-      <QuoteContext.Provider value={ context }>
-        { children }
-      </QuoteContext.Provider>
-    );
-  }
+  return (
+    <QuoteContext.Provider value={ context }>
+      { children }
+    </QuoteContext.Provider>
+  );
 }
 
 export default QuoteProvider;
